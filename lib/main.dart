@@ -1,4 +1,5 @@
 import 'package:apay/constants.dart';
+import 'package:apay/widgets/main_menu.dart';
 import 'package:apay/widgets/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'classes/hex_color.dart';
@@ -14,8 +15,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: HexColor(AppConst.primaryColor)),
-      home: const SplashScreen(),
+      theme: ThemeData(
+          primaryColor: HexColor(AppConst.primaryColor),
+          scaffoldBackgroundColor: HexColor(AppConst.backgroundColor)),
+      home: SplashScreen(),
     );
   }
 }
