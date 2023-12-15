@@ -28,7 +28,7 @@ Apay'in hedeflediği plarformlar
 Projeyi klonlayın
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/applusinc/apay.git
 ```
 
 Proje dizinine gidin
