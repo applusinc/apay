@@ -1,14 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
 import 'package:apay/models/transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:apay/classes/hex_color.dart';
 import 'package:apay/constants.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         secilenItem = selectedItem;
         isLoading = false;
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     List<TransactionItem> getFilteredHistory() {
       DateTime now = DateTime.now();
  DateTime todayStart = DateTime(now.year, now.month, now.day);
-  DateTime todayEnd = todayStart.add(Duration(days: 1));
+  DateTime todayEnd = todayStart.add(const Duration(days: 1));
       switch (secilenItem) {
         case 0: // Bugün (Today)
             return history.where((item) {
@@ -73,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         case 1: // Bu hafta (This week)
           DateTime startOfWeek =
               now.subtract(Duration(days: now.weekday - 1)); // Monday
-          DateTime endOfWeek = startOfWeek.add(Duration(days: 7));
+          DateTime endOfWeek = startOfWeek.add(const Duration(days: 7));
 
           return history.where((item) {
             DateTime itemDate = _parseDate(item.date);
@@ -102,8 +101,8 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: HexColor(AppConst.backgroundColor),
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: AppConst.backgroundColor,
         statusBarIconBrightness: Brightness.light));
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -114,64 +113,66 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 15),
+                margin: const EdgeInsets.only(top: 15),
                 decoration:
-                    BoxDecoration(color: HexColor(AppConst.backgroundColor)),
+                    const BoxDecoration(color: AppConst.backgroundColor),
                 child: SizedBox(
                   height: 100,
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
+
+                        
                         Container(
                           width: 50,
                           height: 50,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
+                              image: const DecorationImage(
                                   image: AssetImage(
                                       "assets/temp/home_profile.png"),
                                   fit: BoxFit.cover)),
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 15),
+                          margin: const EdgeInsets.only(left: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                child: Text("Ali Abdullah",
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: const Text("Ali Abdullah",
                                     style: TextStyle(
                                         fontFamily: 'poppins',
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.white,
+                                       
                                         fontSize: 16)),
-                                margin: EdgeInsets.symmetric(vertical: 5),
                               ),
                               Container(
-                                child: Text(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: const Text(
                                   "Günaydın",
                                   style: TextStyle(
                                       fontFamily: 'poppins',
-                                      color: Colors.white,
+                                      
                                       fontSize: 13),
                                 ),
-                                margin: EdgeInsets.symmetric(vertical: 5),
                               ),
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                             decoration: BoxDecoration(
-                                color: Colors.grey.shade900,
+                                color: AppConst.itemColor,
                                 borderRadius: BorderRadius.circular(12)),
                             child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.notifications,
-                                  color: Colors.white,
+                                  
                                 ))),
                       ],
                     ),
@@ -179,8 +180,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Opacity(
@@ -188,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         'Toplam Paranız',
                         style: TextStyle(
-                          color: Colors.white,
+                          
                           fontSize: 18,
                           fontFamily: 'averta',
                         ),
@@ -199,24 +200,30 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                           fontFamily: 'jiho',
                           fontSize: 28,
-                          color: Colors.white),
+                         ),
                     )
                   ],
                 ),
               ),
-              Divider(
-                  indent: 15,
-                  endIndent: 15,
-                  thickness: 1,
-                  color: Colors.white.withOpacity(0.5)),
+              const Opacity(
+                opacity: 0.5,
+                child: Divider(
+                    indent: 15,
+                    endIndent: 15,
+                    thickness: 1,
+                    ),
+              ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Row(
                   children: [
                     Expanded(
                       flex: 1,
                       child: Container(
                         height: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppConst.itemColor),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
@@ -226,27 +233,27 @@ class _HomePageState extends State<HomePage> {
                                 height: 50,
                                 width: 50,
                               ),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 "Para Gönder",
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'jiho'),
+                                     fontFamily: 'jiho'),
                               )
                             ],
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade900),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Expanded(
                       flex: 1,
                       child: Container(
                         height: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppConst.itemColor),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
@@ -256,27 +263,27 @@ class _HomePageState extends State<HomePage> {
                                 height: 50,
                                 width: 50,
                               ),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 "Para Al",
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'jiho'),
+                                     fontFamily: 'jiho'),
                               )
                             ],
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade900),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Expanded(
                       flex: 1,
                       child: Container(
                         height: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppConst.itemColor),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
@@ -286,39 +293,36 @@ class _HomePageState extends State<HomePage> {
                                 height: 50,
                                 width: 50,
                               ),
-                              Spacer(),
-                              Text(
+                              const Spacer(),
+                              const Text(
                                 "Daha Fazla",
                                 style: TextStyle(
-                                    color: Colors.white, fontFamily: 'jiho'),
+                                     fontFamily: 'jiho'),
                               )
                             ],
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade900),
                       ),
                     )
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
                 child: Text(
                   "Geçmiş İşlemlerim",
                   style: TextStyle(
-                      color: Colors.white, fontSize: 22, fontFamily: 'jiho'),
+                       fontSize: 22, fontFamily: 'jiho'),
                 ),
               ),
               Container(
                 height: 30,
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     GestureDetector(
@@ -333,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                         isSecilen: secilenItem == 0,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     GestureDetector(
@@ -348,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                         isSecilen: secilenItem == 1,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     GestureDetector(
@@ -363,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                         isSecilen: secilenItem == 2,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     GestureDetector(
@@ -378,7 +382,7 @@ class _HomePageState extends State<HomePage> {
                         isSecilen: secilenItem == 3,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     GestureDetector(
@@ -396,19 +400,19 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
                   child: isLoading
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : getFilteredHistory().length == 0
-                          ? Center(
+                          ? const Center(
                               child: Text(
                                 "Gösterilecek hiçbir veri yok :(",
-                                style: TextStyle(color: Colors.white,
+                                style: TextStyle(
                                 fontSize: 16, fontFamily: 'averta'),
                               ),
                             )
@@ -425,6 +429,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// ignore: must_be_immutable
 class TransfilterItem extends StatelessWidget {
   String label;
   bool isSecilen;
@@ -441,14 +446,14 @@ class TransfilterItem extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: isSecilen
-                ? HexColor(AppConst.primaryColor)
-                : Colors.grey.shade900),
+                ? AppConst.primaryColor
+                : AppConst.itemColor),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
           child: Text(
-            "$label",
+            label,
             style: TextStyle(
-                color: isSecilen ? Colors.black : Colors.white,
+                color: isSecilen ? AppConst.transFilterItemTextEnable : AppConst.transFilterItemTextDisable,
                 fontFamily: 'jiho'),
           ),
         ),
@@ -457,6 +462,7 @@ class TransfilterItem extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TransItem extends StatelessWidget {
   TransactionItem data;
   TransItem({
@@ -469,7 +475,7 @@ class TransItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Row(
             children: [
               getImageWidget(data.image),
@@ -482,28 +488,31 @@ class TransItem extends StatelessWidget {
                       children: [
                         Text(
                           "${data.title}" " ·",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: const TextStyle(
+                              
                               fontFamily: "poppins",
                               fontSize: 14,
                               fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          "${data.date}",
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.6),
-                              fontFamily: "poppins",
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic),
+                        Opacity(
+                          opacity: 0.6,
+                          child: Text(
+                            data.date,
+                            style: const TextStyle(
+                                
+                                fontFamily: "poppins",
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic),
+                          ),
                         )
                       ]),
                   Text(
-                    "${data.subtitle}",
-                    style: TextStyle(
-                      color: Colors.white,
+                    data.subtitle,
+                    style: const TextStyle(
+                     
                       fontFamily: "poppins",
                       fontSize: 14,
                     ),
@@ -513,12 +522,12 @@ class TransItem extends StatelessWidget {
               Expanded(
                   child: Center(
                 child: Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       "${data.isCost ? "-${data.amount.toStringAsFixed(2)}" : "+${data.amount.toStringAsFixed(2)}"}"
                       " TL",
-                      style: TextStyle(
-                          color: Colors.white,
+                      style: const TextStyle(
+                         
                           fontSize: 14,
                           fontFamily: 'jiho'),
                     )),
@@ -526,7 +535,7 @@ class TransItem extends StatelessWidget {
             ],
           ),
         ),
-        Divider(
+        const Divider(
           indent: 12,
           endIndent: 12,
         )
@@ -575,7 +584,7 @@ class TransItem extends StatelessWidget {
           },
           errorBuilder:
               (BuildContext context, Object error, StackTrace? stackTrace) {
-            return Text('Error loading image');
+            return const Text('Error loading image');
           },
         ),
       );

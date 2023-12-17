@@ -1,3 +1,4 @@
+import 'package:apay/constants.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedBar extends StatelessWidget {
@@ -16,7 +17,7 @@ class AnimatedBar extends StatelessWidget {
       height: isActivate ? 4 : 0,
       width: 20,
       decoration: BoxDecoration(
-          color: Colors.blue.shade300,
+          color: AppConst.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );
   }
