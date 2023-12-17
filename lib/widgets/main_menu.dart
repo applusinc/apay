@@ -19,6 +19,8 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
       body: HomePage(),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -63,11 +65,10 @@ class _MainMenuState extends State<MainMenu> {
                                             stateMachineName: bottomNavs[index]
                                                 .stateMachineName);
 
-if(bottomNavs[index].isSec){
-bottomNavs[index].input = controller.findSMI("isActive") as SMIBool;
-}else {
+
+
   bottomNavs[index].input = controller.findSMI("active") as SMIBool;
-}
+
 
                                     
                                   },
