@@ -1,8 +1,28 @@
+import 'package:apay/screens/onboarding/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 class AppConst {
   // static String backgroundColor = "263238";
   // static String primaryColor = "B6EF11";
+
+
+  //On boarding Page
+
+static final List<OnBoard> onBoardList = [
+  OnBoard(
+      title: "Kolay Yükle, Güvenle Kullan",
+      description: "3D Secure ile güvenle para yükle harca",
+      image: "assets/images/illustration0.png"),
+  OnBoard(
+      title: "Dünya Çapında Özgürlük",
+      description: "Senin paran, senin cüzdanın",
+      image: "assets/images/illustration1.png"),
+  OnBoard(
+      title: "İhtiyacın olan herşey",
+      description: "İster kendine al ister hediye et arkadaşlarını mutlu et",
+      image: "assets/images/illustration2.png")
+];
+
   static String splashTextColor = "FFFFFF";
   static int splashAnimDuration = 500;
 

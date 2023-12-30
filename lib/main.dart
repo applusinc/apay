@@ -1,9 +1,16 @@
 import 'package:apay/constants.dart';
-import 'package:apay/widgets/splash_page.dart';
+import 'package:apay/screens/auth/auth_page.dart';
+import 'package:apay/screens/auth/register/phone_provider.dart';
+import 'package:apay/screens/auth/register/register_page.dart';
+import 'package:apay/screens/onboarding/onboarding_page.dart';
+import 'package:apay/screens/splash_page.dart';
+import 'package:apay/screens/mainmenu/main_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:apay/routers/router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,32 +18,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: AppConst.primaryColor,
-          hintColor: AppConst.secondaryColor,
-          scaffoldBackgroundColor: AppConst.backgroundColor,
-          cardColor: AppConst.surfaceColor,
-          appBarTheme: const AppBarTheme(
-            color: AppConst.primaryColor,
-          ),
-          colorScheme: const ColorScheme.dark(
-            primary: AppConst.primaryColor,
-            onPrimary: AppConst.onPrimaryColor,
-            secondary: AppConst.secondaryColor,
-            onSecondary: AppConst.onSecondaryColor,
-            error: AppConst.errorColor,
-            onError: AppConst.onErrorColor,
-            background: AppConst.backgroundColor,
-            onBackground: AppConst.onBackgroundColor,
-            surface: AppConst.surfaceColor,
-            onSurface: AppConst.onSurfaceColor,
-          )
-              .copyWith(background: AppConst.backgroundColor)
-              .copyWith(error: AppConst.errorColor)),
-      home: const SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=> PhoneProvider())
+      ],
+      child: MaterialApp(
+       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: AppConst.primaryColor,
+            hintColor: AppConst.secondaryColor,
+            scaffoldBackgroundColor: AppConst.backgroundColor,
+            cardColor: AppConst.surfaceColor,
+            appBarTheme: const AppBarTheme(
+              color: AppConst.primaryColor,
+            ),
+            colorScheme: const ColorScheme.dark(
+              primary: AppConst.primaryColor,
+              onPrimary: AppConst.onPrimaryColor,
+              secondary: AppConst.secondaryColor,
+              onSecondary: AppConst.onSecondaryColor,
+              error: AppConst.errorColor,
+              onError: AppConst.onErrorColor,
+              background: AppConst.backgroundColor,
+              onBackground: AppConst.onBackgroundColor,
+              surface: AppConst.surfaceColor,
+              onSurface: AppConst.onSurfaceColor,
+            )
+                .copyWith(background: AppConst.backgroundColor)
+                .copyWith(error: AppConst.errorColor)),
+        home:  const SplashScreen(),
+      ),
     );
   }
 }
+
