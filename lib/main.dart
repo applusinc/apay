@@ -1,16 +1,12 @@
 import 'package:apay/constants.dart';
-import 'package:apay/screens/auth/auth_page.dart';
 import 'package:apay/screens/auth/register/phone_provider.dart';
-import 'package:apay/screens/auth/register/register_page.dart';
-import 'package:apay/screens/onboarding/onboarding_page.dart';
 import 'package:apay/screens/splash_page.dart';
-import 'package:apay/screens/mainmenu/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:apay/routers/router.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,11 +15,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context)=> PhoneProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (context) => PhoneProvider())],
       child: MaterialApp(
-       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             brightness: Brightness.dark,
@@ -48,9 +42,8 @@ class MyApp extends StatelessWidget {
             )
                 .copyWith(background: AppConst.backgroundColor)
                 .copyWith(error: AppConst.errorColor)),
-        home:  const SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
 }
-

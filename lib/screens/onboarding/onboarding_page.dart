@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:apay/constants.dart';
-import 'package:apay/screens/mainmenu/home_page.dart';
-import 'package:apay/screens/mainmenu/main_menu.dart';
 import 'package:flutter/material.dart';
 
 class OnBoardingPage extends StatefulWidget {

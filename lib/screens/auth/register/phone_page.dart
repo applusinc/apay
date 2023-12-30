@@ -31,7 +31,7 @@ class _RegisPhonePage extends State<PhonePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Bir hesap oluştur",
                   style: TextStyle(
                     fontFamily: 'poppins',
@@ -42,7 +42,7 @@ class _RegisPhonePage extends State<PhonePage> {
                 const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   "Telefon numaranızı yazmalısınız",
                   style: TextStyle(
                     fontFamily: 'poppins',
@@ -50,7 +50,7 @@ class _RegisPhonePage extends State<PhonePage> {
                     color: Colors.white70,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 TextField(
@@ -63,7 +63,7 @@ class _RegisPhonePage extends State<PhonePage> {
                     fontSize: 15,
                     fontFamily: 'Poppins',
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     counterText: "",
                     prefix: Text(
                       "+90",
@@ -102,8 +102,8 @@ class _RegisPhonePage extends State<PhonePage> {
           const Spacer(),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            margin: EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 20),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: _phoneController.text.length == 10
@@ -122,7 +122,7 @@ class _RegisPhonePage extends State<PhonePage> {
                       // widget.onPageChanged(widget.pageController.page?.round() ?? 0);
                     }
                   : null,
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.all(12.0),
                 child: Text(
                   "Kayıt ol",
@@ -151,7 +151,7 @@ class _RegisPhonePage extends State<PhonePage> {
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -161,7 +161,7 @@ class _RegisPhonePage extends State<PhonePage> {
                     "assets/images/illustration0.png",
                   ),
                 ),
-                Text(
+                const Text(
                   'Numaranı Kontrol Et',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -169,20 +169,20 @@ class _RegisPhonePage extends State<PhonePage> {
                     fontSize: 18.0,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   phoneNumber,
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                Text(
+                const Text(
                   'Bu senin mi ?',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontFamily: 'averta'),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 SizedBox(
                     width: MediaQuery.of(context).size.width - 30,
                     child: ElevatedButton(
@@ -191,7 +191,7 @@ class _RegisPhonePage extends State<PhonePage> {
                         onPressed: () {
                           Navigator.pop(context);
                           widget.pageController.nextPage(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               curve: Curves.fastOutSlowIn);
                         },
                         child: const Padding(

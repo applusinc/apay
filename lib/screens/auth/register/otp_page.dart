@@ -1,6 +1,5 @@
 import 'package:apay/constants.dart';
 import 'package:apay/screens/auth/register/phone_provider.dart';
-import 'package:apay/screens/onboarding/onboarding_page.dart';
 import 'package:apay/widgets/otp_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +36,7 @@ class _OTPPageState extends State<OTPPage> {
               height: 5,
             ),
             Text(
-              phoneNumber + " 'ya kod gönderdik",
+              "$phoneNumber 'ya kod gönderdik",
               style: const TextStyle(
                 fontFamily: 'poppins',
                 fontSize: 16,

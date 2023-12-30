@@ -1,9 +1,9 @@
 import 'package:apay/constants.dart';
 import 'package:apay/screens/auth/register/otp_page.dart';
 import 'package:apay/screens/auth/register/phone_page.dart';
-import 'package:apay/screens/mainmenu/home_page.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
   PageController controller = PageController(initialPage: 0);
