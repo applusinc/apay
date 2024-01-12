@@ -4,12 +4,12 @@ Yeni Kişisel cüzdanınız.
 
 ## İçerik
 
-- Apay, node.js backend ile güçlendirilmiş bir Flutter projesidir.
+- Apay, node.js & Firebase backend ile güçlendirilmiş bir Flutter projesidir.
 ## Kullanılan Teknolojiler
 
-**İstemci:** Flutter SDK & Http - Dio
+**İstemci:** Flutter SDK, Http - Dio, Firebase SDK, NVI Public Service, Google ML Kit, Provider, Rive, PinPut
 
-**Sunucu:** Node, Express
+**Sunucu:** Node, Express, bcrypt, http, jsonwebtoken, mysql2, nodemon
 
   
 ## Hedef Plarformlar
@@ -52,7 +52,7 @@ Proje kaynaklarını indirin
 Projeyi Android için build edin
 
 ```bash
-  flutter build apk
+  flutter build apk --release
 ```
 
   
