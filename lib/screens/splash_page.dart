@@ -1,8 +1,11 @@
 import 'package:apay/classes/hex_color.dart';
 import 'package:apay/constants.dart';
+import 'package:apay/screens/auth/register/provider/register_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -25,7 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.popAndPushNamed(context, '/auth');
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user == null) {
+          Navigator.popAndPushNamed(context, '/auth');
+        } else {
+          //TODO Burayı mainmenu diye değiştir
+          Navigator.popAndPushNamed(context, '/auth');
+        }
+      });
     });
   }
 

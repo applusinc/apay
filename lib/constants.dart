@@ -2,35 +2,36 @@ import 'package:apay/screens/onboarding/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 class AppConst {
-  // static String backgroundColor = "263238";
-  // static String primaryColor = "B6EF11";
-
-
-  //On boarding Page
-
-static final List<OnBoard> onBoardList = [
-  OnBoard(
-      title: "Kolay Yükle, Güvenle Kullan",
-      description: "3D Secure ile güvenle para yükle harca",
-      image: "assets/images/illustration0.png"),
-  OnBoard(
-      title: "Dünya Çapında Özgürlük",
-      description: "Senin paran, senin cüzdanın",
-      image: "assets/images/illustration1.png"),
-  OnBoard(
-      title: "İhtiyacın olan herşey",
-      description: "İster kendine al ister hediye et arkadaşlarını mutlu et",
-      image: "assets/images/illustration2.png")
-];
+  static const String internalServerErrorMessage =
+      "Bizden kaynaklı bir sorun oluştu. Birkaç dakika sonra tekrar deneyebilirsin.";
+  static const Map<String, String> registerHeader = {
+    'Content-Type': 'application/json; charset=UTF-8',
+  };
+  static const String authServerAdress = "http://192.168.1.6";
+  static const int authServerPort = 3000;
+  static const int defaultUserType = 2;
+  static final List<OnBoard> onBoardList = [
+    OnBoard(
+        title: "Kolay Yükle, Güvenle Kullan",
+        description: "3D Secure ile güvenle para yükle harca",
+        image: "assets/images/illustration0.png"),
+    OnBoard(
+        title: "Dünya Çapında Özgürlük",
+        description: "Senin paran, senin cüzdanın",
+        image: "assets/images/illustration1.png"),
+    OnBoard(
+        title: "İhtiyacın olan herşey",
+        description: "İster kendine al ister hediye et arkadaşlarını mutlu et",
+        image: "assets/images/illustration2.png")
+  ];
 
   static String splashTextColor = "FFFFFF";
   static int splashAnimDuration = 500;
 
   static Color transFilterItemTextEnable = Colors.grey.shade100;
   static Color itemColor = Colors.grey.shade900;
-    static Color avatarBackground = Colors.white24;
-      static Color avatar = Colors.white;
-
+  static Color avatarBackground = Colors.white24;
+  static Color avatar = Colors.white;
 
   static const Color transFilterItemTextDisable = Colors.white;
   static const Color bottomLayoutColor = Colors.black54;

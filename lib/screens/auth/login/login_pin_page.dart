@@ -1,0 +1,192 @@
+import 'package:apay/constants.dart';
+import 'package:apay/screens/auth/login/provider/login_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
+
+class LoginPinPage extends StatefulWidget {
+  const LoginPinPage({super.key});
+
+  @override
+  State<LoginPinPage> createState() => _LoginPinPageState();
+}
+
+class _LoginPinPageState extends State<LoginPinPage> {
+   final pinController = TextEditingController();
+  final focusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
+  late LoginProvider loginProvider;
+
+   @override
+  void dispose() {
+    pinController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    const focusedBorderColor = AppConst.primaryColor;
+    const fillColor = Colors.transparent;
+    Color borderColor = AppConst.primaryColor.withOpacity(0.6);
+
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 56,
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Colors.white70,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(19),
+        border: Border.all(color: borderColor),
+      ),
+    );
+
+   
+
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Pin Giriniz",
+                    style: TextStyle(
+                      fontFamily: 'poppins',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                     "Daha önce oluşturduğunuz 6 haneli pini giriniz.",
+                    style: TextStyle(
+                      fontFamily: 'poppins',
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 45,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                        autovalidateMode: AutovalidateMode.disabled,
+                        key: formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Pinput(
+                                  length: 6,
+                                  controller: pinController,
+                                  focusNode: focusNode,
+                                  listenForMultipleSmsOnAndroid: false,
+                                  defaultPinTheme: defaultPinTheme,
+                                  separatorBuilder: (index) => const SizedBox(
+                                    width: 10,
+                                  ),
+                                  validator: (value) {
+                                    String value2 = value ?? "";
+                                    // ignore: prefer_is_empty
+                                    if (value2.length > 0 && value2.length < 6) {
+                                      return "Geçersiz giriş.";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  hapticFeedbackType:
+                                      HapticFeedbackType.lightImpact,
+                                  onCompleted: (value) {
+                                    debugPrint('completed $value');
+                                  },
+                                  onChanged: (value) {
+                                    debugPrint('changed $value');
+                                    setState(() {});
+                                  },
+                                  cursor: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(bottom: 9),
+                                        width: 22,
+                                        height: 1,
+                                        color: focusedBorderColor,
+                                      )
+                                    ],
+                                  ),
+                                  focusedPinTheme: defaultPinTheme.copyWith(
+                                    decoration:
+                                        defaultPinTheme.decoration!.copyWith(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border:
+                                          Border.all(color: focusedBorderColor),
+                                    ),
+                                  ),
+                                  submittedPinTheme: defaultPinTheme.copyWith(
+                                    decoration:
+                                        defaultPinTheme.decoration!.copyWith(
+                                      color: fillColor,
+                                      borderRadius: BorderRadius.circular(19),
+                                      border:
+                                          Border.all(color: focusedBorderColor),
+                                    ),
+                                  ),
+                                  errorPinTheme: defaultPinTheme.copyBorderWith(
+                                    border: Border.all(color: Colors.redAccent),
+                                  ),
+                                ))
+                          ],
+                        )),
+                  )
+                ],
+              ),
+            ),
+            const Spacer(),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.symmetric(vertical: 20),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: pinController.text.length == 6
+                      ? AppConst.primaryColor
+                      : AppConst.primaryColor.withOpacity(0.5),
+                ),
+                onPressed: formKey.currentState?.validate() ?? false
+                    ? ()  {
+                        focusNode.unfocus();
+                        if (formKey.currentState!.validate()) {
+                          //TODO giriş yapma kısmı
+                        }
+                      }
+                    : null,
+                child: const Padding(
+                  padding:  EdgeInsets.all(12.0),
+                  child: Text(
+                    "Giriş yap",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'jiho',
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

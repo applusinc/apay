@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "144147743709",
+    "project_id": "apay-tr",
+    "storage_bucket": "apay-tr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144147743709:android:43960c5dddcee106b4ec34",
+        "android_client_info": {
+          "package_name": "com.applus.apay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfJeZx_Tg_IB0Yo56gOCAmeZkdXwbxBBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

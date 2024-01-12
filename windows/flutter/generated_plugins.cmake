@@ -3,7 +3,12 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  file_selector_windows
+  firebase_auth
+  firebase_core
+  permission_handler_windows
   rive_common
+  smart_auth
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

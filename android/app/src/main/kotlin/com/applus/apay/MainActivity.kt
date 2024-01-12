@@ -1,4 +1,4 @@
-package com.example.apay
+package com.applus.apay
 
 import io.flutter.embedding.android.FlutterActivity
 

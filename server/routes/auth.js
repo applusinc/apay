@@ -9,18 +9,19 @@ const authRouter = express.Router();
 
 authRouter.post("/api/signup", async (req, res) => {
     try {
-        const { name, surname, email, password, phone, tckn, birthday } = req.body;
+        const {id, name, surname, email, hashedPassword, phone, tckn, birthday, serial, validUntil} = req.body;
 
-        if (!name || !surname || !email || !password || !phone || !tckn || !birthday) {
+        if (!id || !name || !surname || !email || !hashedPassword || !phone || !tckn || !birthday || !serial || !validUntil) {
             return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
         }
+        console.log(id);
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({ "error": "E-mail yanlış formatta." });
         }
 
-        if(password.length != 6){
+        if(hashedPassword.length != 6){
             return res.status(400).json({ "error": "Şifre 6 haneli olmalıdır." });
         }
 
@@ -58,14 +59,14 @@ const tcRegex = /^[1-9][0-9]{9}[02468]$/;
         }
 
         
-        const hashedPassword = await bcrypt.hash(password, 8);
+        const hashedPassword2 = await bcrypt.hash(hashedPassword, 8);
        
-        const insertUserQuery = 'INSERT INTO user (name, surname, email, password, phone, tckn, birthday, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        const [result] = await connection.query(insertUserQuery, [name, surname, email, hashedPassword, phone, tckn, birthday, "2"]);
+        const insertUserQuery = 'INSERT INTO user (id, name, surname, email, password, phone, tckn, birthday, serial, validuntil, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const [result] = await connection.query(insertUserQuery, [id, name, surname, email, hashedPassword2, phone, tckn, birthday, serial, validUntil, "2"]);
        
-        const userId = result.insertId;
-        const selectUserQuery = 'SELECT * FROM user WHERE id = ?';
-        const [userResult] = await connection.query(selectUserQuery, [userId]);
+        
+        const selectUserQuery = 'SELECT * FROM user WHERE id = ?'; 
+        const [userResult] = await connection.query(selectUserQuery, [id]);
 
        
          res.status(200).json({user: userResult [0]});
@@ -149,9 +150,164 @@ if(userCheckResult == 0) return res.json(false);
 res.json(true);
 
     } catch (error) {
+        res.status(400).json(false);
+    }
+});
+
+
+authRouter.post("/api/checkphone", async (req, res) => {
+    try {
+        const {phone} = req.body;
+
+if (!phone) {
+    return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
+}
+
+
+
+if (phone.length !== 12) {
+    return res.status(400).json({ "error": "Telefon numarası yanlış formatta." });
+}
+
+// Telefon (phone) kontrolü
+const phoneCheckQuery = 'SELECT password FROM user WHERE phone = ?';
+const [phoneCheckResult] = await connection.query(phoneCheckQuery, [phone]);
+
+if (phoneCheckResult.length === 0) {
+    return res.status(200).json({ "result": "false" });
+}
+
+return res.status(200).json({ "result": "true" });
+
+
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+});
+
+
+authRouter.post("/api/checktckn", async (req, res) => {
+    try {
+        const {tckn} = req.body;
+
+if (!tckn) {
+    return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
+}
+
+
+
+if (tckn.length !== 11) {
+    return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
+}
+
+// Telefon (phone) kontrolü
+const tcknCheckQuery = 'SELECT passwordtry FROM user WHERE tckn = ?';
+const [tcknCheckResult] = await connection.query(tcknCheckQuery, [tckn]);
+
+if (tcknCheckResult.length === 0) {
+    return res.status(200).json({ "result": "false" });
+}
+
+return res.status(200).json({ "result": "true" });
+
+
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+});
+
+
+authRouter.post("/api/checkphone", async (req, res) => {
+    try {
+        const {phone} = req.body;
+
+if (!phone) {
+    return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
+}
+
+
+
+if (phone.length !== 12) {
+    return res.status(400).json({ "error": "Telefon numarası yanlış formatta." });
+}
+
+// Telefon (phone) kontrolü
+const phoneCheckQuery = 'SELECT password FROM user WHERE phone = ?';
+const [phoneCheckResult] = await connection.query(phoneCheckQuery, [phone]);
+
+if (phoneCheckResult.length === 0) {
+    return res.status(200).json({ "result": "false" });
+}
+
+return res.status(200).json({ "result": "true" });
+
+
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+});
+
+
+authRouter.post("/api/checkemail", async (req, res) => {
+    try {
+        const {email} = req.body;
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ "error": "E-mail yanlış formatta." });
+        }
+
+
+
+
+
+// email kontrolü
+const emailCheckQuery = 'SELECT passwordtry FROM user WHERE email = ?';
+const [emailCheckResult] = await connection.query(emailCheckQuery, [email]);
+
+if (emailCheckResult.length === 0) {
+    return res.status(200).json({ "result": "false" });
+}
+
+return res.status(200).json({ "result": "true" });
+
+
+    } catch (error) {
+        res.status(500).json({ "error": error.message });
+    }
+});
+
+
+
+
+
+authRouter.post("/api/tokenisvalid", async (req, res) => {
+    try {
+        const token = req.header('x-auth-token');
+if(!token) return res.json(false);
+const verified = jwt.verify(token, "passwordKey");
+    if(!verified) return res.json(false);
+
+    const userQuery = "SELECT * FROM user WHERE id = ?";
+    const [userCheckResult] = await connection.query(userQuery, [verified.id]);
+if(userCheckResult == 0) return res.json(false);
+res.json(true);
+
+    } catch (error) {
         res.status(500).json(false);
     }
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 authRouter.get('/', auth, async (req, res) => {
