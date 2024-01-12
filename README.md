@@ -9,7 +9,7 @@ Yeni Kişisel cüzdanınız.
 
 **İstemci:** Flutter SDK, Http - Dio, Firebase SDK, NVI Public Service, Google ML Kit, Provider, Rive, PinPut
 
-**Sunucu:** Node, Express, bcrypt, http, jsonwebtoken, mysql2, nodemon
+**Sunucu:** Node.js, Express, Firebase Auth - Core, bcrypt, http, jsonwebtoken, mysql2, nodemon
 
   
 ## Hedef Plarformlar
