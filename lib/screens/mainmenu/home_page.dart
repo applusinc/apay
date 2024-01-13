@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
 import 'package:apay/models/transaction_item.dart';
+import 'package:apay/user/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:apay/classes/hex_color.dart';
 import 'package:apay/constants.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -144,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 5),
-                                child: const Text("Ali Abdullah",
-                                    style: TextStyle(
+                                child:  Text(Provider.of<UserProvider>(context, listen: false).user.name,
+                                    style: const TextStyle(
                                         fontFamily: 'poppins',
                                         fontWeight: FontWeight.w700,
                                        
@@ -154,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                 child: Text(
-                                  FirebaseAuth.instance.currentUser?.uid ?? 'user',
+                                  Provider.of<UserProvider>(context, listen: false).user.id,
                                   style: const TextStyle(
                                       fontFamily: 'poppins',
                                       
@@ -409,7 +411,7 @@ class _HomePageState extends State<HomePage> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : getFilteredHistory().length == 0
+                      : getFilteredHistory().isEmpty
                           ? const Center(
                               child: Text(
                                 "Gösterilecek hiçbir veri yok :(",
@@ -435,10 +437,10 @@ class TransfilterItem extends StatelessWidget {
   String label;
   bool isSecilen;
   TransfilterItem({
-    Key? key,
+    super.key,
     required this.label,
     required this.isSecilen,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -467,9 +469,9 @@ class TransfilterItem extends StatelessWidget {
 class TransItem extends StatelessWidget {
   TransactionItem data;
   TransItem({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:apay/constants.dart';
 import 'package:apay/screens/auth/login/provider/login_provider.dart';
+import 'package:apay/screens/auth/service/auth_service.dart';
+import 'package:apay/user/model/user.dart';
+import 'package:apay/user/provider/user_provider.dart';
+import 'package:apay/widgets/dialogs/loading_dialog.dart';
+import 'package:apay/widgets/dialogs/response_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPinPage extends StatefulWidget {
   const LoginPinPage({super.key});
@@ -11,18 +20,17 @@ class LoginPinPage extends StatefulWidget {
 }
 
 class _LoginPinPageState extends State<LoginPinPage> {
-   final pinController = TextEditingController();
+  final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   late LoginProvider loginProvider;
 
-   @override
+  @override
   void dispose() {
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +50,6 @@ class _LoginPinPageState extends State<LoginPinPage> {
         border: Border.all(color: borderColor),
       ),
     );
-
-   
 
     return Scaffold(
       body: SafeArea(
@@ -67,7 +73,7 @@ class _LoginPinPageState extends State<LoginPinPage> {
                     height: 5,
                   ),
                   const Text(
-                     "Daha önce oluşturduğunuz 6 haneli pini giriniz.",
+                    "Daha önce oluşturduğunuz 6 haneli pini giriniz.",
                     style: TextStyle(
                       fontFamily: 'poppins',
                       fontSize: 16,
@@ -99,7 +105,8 @@ class _LoginPinPageState extends State<LoginPinPage> {
                                   validator: (value) {
                                     String value2 = value ?? "";
                                     // ignore: prefer_is_empty
-                                    if (value2.length > 0 && value2.length < 6) {
+                                    if (value2.length > 0 &&
+                                        value2.length < 6) {
                                       return "Geçersiz giriş.";
                                     } else {
                                       return null;
@@ -118,7 +125,8 @@ class _LoginPinPageState extends State<LoginPinPage> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Container(
-                                        margin: const EdgeInsets.only(bottom: 9),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 9),
                                         width: 22,
                                         height: 1,
                                         color: focusedBorderColor,
@@ -164,15 +172,37 @@ class _LoginPinPageState extends State<LoginPinPage> {
                       : AppConst.primaryColor.withOpacity(0.5),
                 ),
                 onPressed: formKey.currentState?.validate() ?? false
-                    ? ()  {
+                    ? () async {
                         focusNode.unfocus();
                         if (formKey.currentState!.validate()) {
-                          //TODO giriş yapma kısmı
+                          loginProvider = Provider.of<LoginProvider>(context,
+                              listen: false);
+                          loginProvider.setPassword(pinController.text);
+                          LoadingScreen.show(
+                              context, "Bilgileriniz kontrol ediliyor.");
+                          await AuthService().signInUser(
+                            Provider.of<LoginProvider>(context, listen: false),
+                            context,
+                            onSuccess: (decodedBody) async {
+                              LoadingScreen.hide(context);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .setUser(DatabaseUser.fromMap(decodedBody["user"]));
+                              await prefs.setString(
+                                  "x-auth-token", decodedBody["token"]);
+                              Navigator.pushNamedAndRemoveUntil(context, "/mainmenu", (route) => false,);
+                            },
+                            onFail: (decodedBody, errorMsg) {
+                              LoadingScreen.hide(context);
+                              ResponseDialog.show(context, "Hata", errorMsg);
+                            },
+                          );
                         }
                       }
                     : null,
                 child: const Padding(
-                  padding:  EdgeInsets.all(12.0),
+                  padding: EdgeInsets.all(12.0),
                   child: Text(
                     "Giriş yap",
                     style: TextStyle(

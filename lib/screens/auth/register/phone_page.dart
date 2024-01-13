@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 
 class PhonePage extends StatefulWidget {
   const PhonePage({
-    Key? key,
+    super.key,
     required this.pageController,
     required this.onPageChanged,
-  }) : super(key: key);
+  });
 
   final PageController pageController;
   final Function(int) onPageChanged;

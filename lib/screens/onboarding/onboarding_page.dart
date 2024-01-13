@@ -128,11 +128,11 @@ class OnBoard {
 
 class OnBoardContent extends StatelessWidget {
   const OnBoardContent({
-    Key? key,
+    super.key,
     required this.description,
     required this.title,
     required this.image,
-  }) : super(key: key);
+  });
   final String title, image, description;
 
   @override

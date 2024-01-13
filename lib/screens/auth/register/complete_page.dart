@@ -1,11 +1,6 @@
 import 'package:apay/constants.dart';
-import 'package:apay/screens/auth/register/provider/register_provider.dart';
-import 'package:apay/screens/auth/service/auth_service.dart';
-import 'package:apay/widgets/dialogs/loading_dialog.dart';
-import 'package:apay/widgets/dialogs/response_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 class CompletePage extends StatefulWidget {
   final PageController controller;
@@ -16,11 +11,8 @@ class CompletePage extends StatefulWidget {
 }
 
 class _CompletePageState extends State<CompletePage> {
-  
-
   @override
   Widget build(BuildContext context) {
-   
     return SafeArea(
       child: Center(
         child: Column(
@@ -52,11 +44,8 @@ class _CompletePageState extends State<CompletePage> {
             Column(
               children: [
                 ElevatedButton(
-                  onPressed: ()  {
-                    
-                    
-
-                    
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, "/login");
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: AppConst.primaryColor,

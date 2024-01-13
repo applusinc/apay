@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class OTPPage extends StatefulWidget {
   final PageController controller;
 
-  const OTPPage({Key? key, required this.controller}) : super(key: key);
+  const OTPPage({super.key, required this.controller});
 
   @override
   State<OTPPage> createState() => _OTPPageState();
@@ -94,6 +94,7 @@ class _OTPPageState extends State<OTPPage> {
                             context, 'Bilgileriniz kontrol ediliyor.');
                         AuthService()
                             .verifyOTPForRegister(verifID, value, context, onOTPSuccess);
+                      // ignore: empty_catches
                       } catch (e) {}
 
                       // Navigator.popAndPushNamed(context, '/onboarding');

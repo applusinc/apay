@@ -38,18 +38,6 @@ class _EmailPage extends State<EmailPage> {
     //   // ignore: empty_catches
     // } catch (e) {}
 
-    void onCodeSent(String verificationID) {
-      LoadingScreen.hide(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Kod Gönderildi.')));
-
-      Provider.of<RegisterProvider>(context, listen: false)
-          .setVerificationID(verificationID);
-
-      widget.pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.fastOutSlowIn);
-    }
 
     void hideDialog() {
       Navigator.pop(context);

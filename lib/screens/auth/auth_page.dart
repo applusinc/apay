@@ -1,5 +1,4 @@
 import 'package:apay/constants.dart';
-import 'package:apay/screens/auth/service/auth_service.dart';
 import 'package:apay/widgets/dialogs/loading_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -76,9 +75,15 @@ class _RegisAuthPage extends State<AuthPage> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       side: const BorderSide(color: AppConst.primaryColor)),
-                  onPressed: () => {
-                        LoadingScreen.show(
-                            context, "Bilgilerin kontrol ediliyor.")
+                  onPressed: ()  {
+                       LoadingScreen.show(context, "Bilgilerin kontrol ediliyor.");
+                    Future.delayed(
+                      const Duration(seconds: 2),
+                      () {
+                        LoadingScreen.hide(context);
+                          Navigator.pushNamed(context, '/login');
+                      },
+                    );
                       },
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),

@@ -4,6 +4,7 @@ const { connection } = require("../database/database");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require("../middlewares/auth");
+const moment = require('moment'); 
 
 const authRouter = express.Router();
 
@@ -83,13 +84,13 @@ const tcRegex = /^[1-9][0-9]{9}[02468]$/;
 
 authRouter.post("/api/signin", async (req, res) => {
     try {
-        const { phone, password } = req.body;
-
-if (!password || !phone) {
+        const { phone, hashedPassword } = req.body;
+  
+if (!hashedPassword || !phone) {
     return res.status(400).json({ "error": "Gönderilen veriler eksik veya yanlış." });
 }
 
-if (password.length !== 6) {
+if (hashedPassword.length !== 6) {
     return res.status(400).json({ "error": "Şifre 6 haneli olmalıdır." });
 }
 
@@ -109,7 +110,7 @@ if (phoneCheckResult[0].passwordtry >= 3) {
     return res.status(400).json({ "error": "Fazla sayıda şifre denediniz. Lütfen şifrenizi sıfırlayınız." });
 }
 
-const isMatch = await bcrypt.compare(password, phoneCheckResult[0].password);
+const isMatch = await bcrypt.compare(hashedPassword, phoneCheckResult[0].password);
 
 if (!isMatch) {
     const passTryQuery = 'UPDATE user SET passwordtry = ? WHERE phone = ?';
@@ -124,12 +125,13 @@ if (!isMatch) {
     
     return res.status(400).json({ "error": `Yanlış şifre. ${returnText}` });
 }
+const loginTime = moment();
 const userQuery = "SELECT * FROM user WHERE phone = ?";
 const [userCheckResult] = await connection.query(userQuery, [phone]);
-const token = jwt.sign({id: userCheckResult[0].id}, "passwordKey");
-userCheckResult[0].token = token;
-
-res.status(200).json(userCheckResult[0]);
+const token = jwt.sign({id: userCheckResult[0].id, phone: userCheckResult[0].phone, password: hashedPassword, time: loginTime}, "passwordKey");
+const passTryQuery = 'UPDATE user SET passwordtry = ? WHERE phone = ?';
+await connection.query(passTryQuery, [0, phone]);
+res.status(200).json({user: userCheckResult[0], token: token});
     
     } catch (error) {
         res.status(500).json({ "error": error.message });
@@ -287,7 +289,6 @@ authRouter.post("/api/tokenisvalid", async (req, res) => {
 if(!token) return res.json(false);
 const verified = jwt.verify(token, "passwordKey");
     if(!verified) return res.json(false);
-
     const userQuery = "SELECT * FROM user WHERE id = ?";
     const [userCheckResult] = await connection.query(userQuery, [verified.id]);
 if(userCheckResult == 0) return res.json(false);
@@ -298,23 +299,7 @@ res.json(true);
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-authRouter.get('/', auth, async (req, res) => {
-    const userQuery = "SELECT * FROM user WHERE id = ?";
-    const [userCheckResult] = await connection.query(userQuery, [req.user]);
-    res.json({userCheckResult, token: req.token});
-}); 
+ 
 
 
 

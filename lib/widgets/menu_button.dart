@@ -6,10 +6,10 @@ class MenuButton extends StatelessWidget {
   VoidCallback press;
   ValueChanged<Artboard> riveOnInit;
   MenuButton({
-    Key? key,
+    super.key,
     required this.press,
     required this.riveOnInit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

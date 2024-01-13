@@ -1,13 +1,13 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:apay/classes/datepicker/scroll_date_picker.dart';
-import 'package:apay/classes/datepicker/src/models/date_picker_options.dart';
-import 'package:apay/classes/datepicker/src/models/date_picker_scroll_view_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
 class DateScrollView extends StatelessWidget {
   const DateScrollView({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.dates,
     required this.controller,
@@ -17,7 +17,7 @@ class DateScrollView extends StatelessWidget {
     required this.locale,
     this.isYearScrollView = false,
     this.isMonthScrollView = false,
-  }) : super(key: key);
+  });
 
   /// A controller for scroll views whose items have the same size.
   final FixedExtentScrollController controller;
@@ -45,18 +45,18 @@ class DateScrollView extends StatelessWidget {
   final bool isMonthScrollView;
 
   double _getScrollViewWidth(BuildContext context) {
-    String _longestText = '';
+    String longestText = '';
     List _dates = isMonthScrollView ? locale.months : dates;
     for (var text in _dates) {
-      if ('$text'.length > _longestText.length) {
-        _longestText = '$text'.padLeft(2, '0');
+      if ('$text'.length > longestText.length) {
+        longestText = '$text'.padLeft(2, '0');
       }
     }
-    _longestText += scrollViewOptions.label;
+    longestText += scrollViewOptions.label;
     final TextPainter _painter = TextPainter(
       text: TextSpan(
         style: scrollViewOptions.selectedTextStyle,
-        text: _longestText,
+        text: longestText,
       ),
       textDirection: Directionality.of(context),
     );

@@ -12,12 +12,12 @@ class SideMenuTile extends StatelessWidget {
   ValueChanged<Artboard> riveonInit;
   bool isActive;
   SideMenuTile({
-    Key? key,
+    super.key,
     required this.rive,
     required this.press,
     required this.riveonInit,
     required this.isActive,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

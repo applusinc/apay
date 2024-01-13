@@ -12,11 +12,11 @@ class AnimatedBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      margin: EdgeInsets.only(bottom: 2),
+      duration: const Duration(milliseconds: 300),
+      margin: const EdgeInsets.only(bottom: 2),
       height: isActivate ? 4 : 0,
       width: 20,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: AppConst.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(12))),
     );

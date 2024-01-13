@@ -13,7 +13,6 @@ class DatabaseUser {
   final String serial;
   final String validUntil;
   final int passwordTry;
-  final String token;
   final int type;
   DatabaseUser({
     required this.id,
@@ -27,7 +26,6 @@ class DatabaseUser {
     required this.serial,
     required this.validUntil,
     required this.passwordTry,
-    required this.token,
     required this.type,
   });
 
@@ -44,7 +42,6 @@ class DatabaseUser {
       'serial': serial,
       'validUntil': validUntil,
       'passwordTry': passwordTry,
-      'token': token,
       'type': type,
     };
   }
@@ -55,14 +52,13 @@ class DatabaseUser {
       name: map['name'] as String,
       surname: map['surname'] as String,
       email: map['email'] as String,
-      hashedPassword: map['hashedPassword'] as String,
+      hashedPassword: map['password'] as String,
       phone: map['phone'] as String,
       tckn: map['tckn'] as String,
       birthday: map['birthday'] as String,
       serial: map['serial'] as String,
-      validUntil: map['validUntil'] as String,
-      passwordTry: map['passwordTry'] as int,
-      token: map['token'] as String,
+      validUntil: map['validuntil'] as String,
+      passwordTry: map['passwordtry'] as int,
       type: map['type'] as int,
     );
   }

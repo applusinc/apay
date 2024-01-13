@@ -1,8 +1,9 @@
 import 'package:apay/constants.dart';
 import 'package:apay/firebase_options.dart';
-import 'package:apay/screens/auth/login/login_phone_page.dart';
 import 'package:apay/screens/auth/login/provider/login_provider.dart';
 import 'package:apay/screens/auth/register/provider/register_provider.dart';
+import 'package:apay/screens/splash_page.dart';
+import 'package:apay/user/provider/user_provider.dart';
 import 'package:apay/widgets/dialogs/response_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => RegisterProvider()),
-      ChangeNotifierProvider(create: (context) => LoginProvider())],
+      ChangeNotifierProvider(create: (context) => LoginProvider()),
+      ChangeNotifierProvider(create: (context)=> UserProvider())],
       child: MaterialApp(
           onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
           debugShowCheckedModeBanner: false,
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
               )
                   .copyWith(background: AppConst.backgroundColor)
                   .copyWith(error: AppConst.errorColor)),
-          home: const LoginPhonePage()
+          home: const SplashScreen()
           ),
     );
   }
@@ -106,7 +108,6 @@ class _PinputExampleState extends State<PinputExample> {
   @override
   Widget build(BuildContext context) {
     const focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
-    const fillColor = Color.fromRGBO(243, 246, 249, 0);
     const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
     final defaultPinTheme = PinTheme(

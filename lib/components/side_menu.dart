@@ -52,7 +52,7 @@ class _SideMenuState extends State<SideMenu> {
                   setState(() {
                     selectedMenu = menu;
                   });
-                  Future.delayed(Duration(seconds: 1), () {
+                  Future.delayed(const Duration(seconds: 1), () {
                     menu.input!.change(false);
                   });
                 },
@@ -80,7 +80,7 @@ class _SideMenuState extends State<SideMenu> {
                   setState(() {
                     selectedMenu = menu;
                   });
-                  Future.delayed(Duration(seconds: 1), () {
+                  Future.delayed(const Duration(seconds: 1), () {
                     menu.input!.change(false);
                   });
                 },

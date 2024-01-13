@@ -2,6 +2,7 @@ import 'package:apay/screens/auth/auth_page.dart';
 import 'package:apay/screens/auth/login/login_otp_page.dart';
 import 'package:apay/screens/auth/login/login_phone_page.dart';
 import 'package:apay/screens/auth/login/login_pin_page.dart';
+import 'package:apay/screens/auth/login/relogin/relogin_pin_page.dart';
 import 'package:apay/screens/auth/register/register_page.dart';
 import 'package:apay/screens/onboarding/onboarding_page.dart';
 import 'package:apay/screens/page_404.dart';
@@ -32,6 +33,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LoginOtpPage());
       case loginPinPage:
         return MaterialPageRoute(builder: (_) => const LoginPinPage());
+      case reloginPinPage:
+        return MaterialPageRoute(builder: (_) => const ReloginPinPage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Page404(),
@@ -48,3 +51,4 @@ const String registerPage = '/register';
 const String loginPage = "/login";
 const String loginOtp = "/loginotp";
 const String loginPinPage = "/loginpin";
+const String reloginPinPage = "/reloginpin";

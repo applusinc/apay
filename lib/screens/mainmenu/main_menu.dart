@@ -32,7 +32,7 @@ class _MainMenuState extends State<MainMenu>
   @override
   void initState() {
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200))
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 200))
           ..addListener(() {
             setState(() {});
           });
@@ -61,12 +61,12 @@ class _MainMenuState extends State<MainMenu>
       body: Stack(
         children: [
           AnimatedPositioned(
-              duration: Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 200),
               curve: Curves.fastOutSlowIn,
               width: 288,
               left: isSideMenuClosed ? -288 : 0,
               height: MediaQuery.of(context).size.height,
-              child: SideMenu()),
+              child: const SideMenu()),
           Transform(
             alignment: Alignment.center,
             transform: Matrix4.identity()..setEntry(3, 2, 0.001)..rotateY(animation.value -30 *animation.value * pi /  180),
@@ -76,10 +76,10 @@ class _MainMenuState extends State<MainMenu>
                     scale: animationScal.value,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: HomePage()))),
+                        child: const HomePage()))),
           ),
           AnimatedPositioned(
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             top: 16,
             left: isSideMenuClosed ? 6 : 220,
             curve: Curves.fastOutSlowIn,
@@ -113,9 +113,9 @@ class _MainMenuState extends State<MainMenu>
         offset: Offset(0, 100 * animation.value),
         child: SafeArea(
           child: Container(
-            padding: EdgeInsets.all(12),
-            margin: EdgeInsets.only(left: 24, right: 24, bottom: 12),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(left: 24, right: 24, bottom: 12),
+            decoration: const BoxDecoration(
                 color: AppConst.bottomLayoutColor,
                 borderRadius: BorderRadius.all(Radius.circular(24))),
             child: Row(
@@ -131,7 +131,7 @@ class _MainMenuState extends State<MainMenu>
                               });
                             }
                             bottomNavs[index].input!.change(true);
-                            Future.delayed(Duration(seconds: 1), () {
+                            Future.delayed(const Duration(seconds: 1), () {
                               bottomNavs[index].input!.change(false);
                             });
                           },

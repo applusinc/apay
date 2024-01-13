@@ -6,7 +6,7 @@ import 'utils/get_monthly_date.dart';
 
 class ScrollDatePicker extends StatefulWidget {
   ScrollDatePicker({
-    Key? key,
+    super.key,
     required this.selectedDate,
     DateTime? minimumDate,
     DateTime? maximumDate,
@@ -21,13 +21,12 @@ class ScrollDatePicker extends StatefulWidget {
         locale = locale ?? const Locale('en'),
         options = options ?? const DatePickerOptions(),
         scrollViewOptions =
-            scrollViewOptions ?? const DatePickerScrollViewOptions(),
-        super(key: key);
+            scrollViewOptions ?? const DatePickerScrollViewOptions();
 
   /// A list that allows you to specify the type of date view.
   /// And also the order of the viewType in list is the order of the date view.
   /// If this list is null, the default order of locale is set.
-  /// TODO("Satoshi"): Specify the type of date view visible.
+
   final List<DatePickerViewType>? viewType;
 
   /// The currently selected date.
@@ -215,9 +214,9 @@ class _ScrollDatePickerState extends State<ScrollDatePicker> {
   }
 
   void _initDays() {
-    int _maximumDay =
+    int maximumDay =
         getMonthlyDate(year: _selectedDate.year, month: _selectedDate.month);
-    _days = [for (int i = 1; i <= _maximumDay; i++) i];
+    _days = [for (int i = 1; i <= maximumDay; i++) i];
     if (_selectedDate.year == widget.maximumDate.year &&
         _selectedDate.month == widget.maximumDate.month &&
         _selectedDate.year == widget.minimumDate.year &&

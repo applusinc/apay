@@ -4,7 +4,8 @@ import 'dart:convert';
 
 import 'package:apay/constants.dart';
 import 'package:apay/error_handling.dart';
-import 'package:apay/models/user.dart';
+import 'package:apay/screens/auth/login/provider/login_provider.dart';
+import 'package:apay/user/model/user.dart';
 import 'package:apay/screens/auth/register/provider/register_provider.dart';
 import 'package:apay/widgets/dialogs/loading_dialog.dart';
 import 'package:apay/widgets/dialogs/response_dialog.dart';
@@ -13,13 +14,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void sendSmsVerification(BuildContext context, Function onSent, String phoneNumber) async {
-    final phoneNum =
-        "+90$phoneNumber";
+  void sendSmsVerification(
+      BuildContext context, Function onSent, String phoneNumber) async {
+    final phoneNum = "+90$phoneNumber";
     auth.verifyPhoneNumber(
       phoneNumber: phoneNum,
       timeout: const Duration(seconds: 60),
@@ -35,51 +37,45 @@ class AuthService {
     );
   }
 
-  void verifyOTPForRegister(String verificationId, String smsCode, BuildContext context,
-      Function onSuccess) async {
+  void verifyOTPForRegister(String verificationId, String smsCode,
+      BuildContext context, Function onSuccess) async {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
 
       // ignore: unused_local_variable
       UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);   
-          
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       await AuthService().checkPhone(
         Provider.of<RegisterProvider>(context, listen: false),
         onSuccess: (result) {
           if (!result) {
             FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user == null) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Row(
-              children: <Widget>[
-                // add your preferred icon here
-                Icon(
-                  Icons.warning_amber,
-                  color: Colors.red,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
+              if (user == null) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Row(
+                    children: <Widget>[
+                      // add your preferred icon here
+                      Icon(
+                        Icons.warning_amber,
+                        color: Colors.red,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
 
-                // add your preferred text content here
-                Text("Oturum açma hatası"),
-              ],
-            ),
-          ));
-        } else {
-          Provider.of<RegisterProvider>(context, listen: false)
-              .setID(userCredential.user!.uid);
-              onSuccess();
-          
-        }
-      });
-
-
-
-            
+                      // add your preferred text content here
+                      Text("Oturum açma hatası"),
+                    ],
+                  ),
+                ));
+              } else {
+                Provider.of<RegisterProvider>(context, listen: false)
+                    .setID(userCredential.user!.uid);
+                onSuccess();
+              }
+            });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Row(
@@ -121,8 +117,6 @@ class AuthService {
         },
       );
 
-      
-
       LoadingScreen.hide(context);
     } catch (e) {
       debugPrint(e.toString());
@@ -187,21 +181,18 @@ class AuthService {
     }
   }
 
-
-
-
-  void verifyOTPForLogin(String verificationId, String smsCode, BuildContext context,
-      Function onSuccess) async {
+  void verifyOTPForLogin(String verificationId, String smsCode,
+      BuildContext context, Function onSuccess) async {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
 
       // ignore: unused_local_variable
       UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);   
-          
-LoadingScreen.hide(context);
-            FirebaseAuth.instance.authStateChanges().listen((User? user) {
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      LoadingScreen.hide(context);
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user == null) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Row(
@@ -223,13 +214,9 @@ LoadingScreen.hide(context);
         } else {
           Provider.of<RegisterProvider>(context, listen: false)
               .setID(userCredential.user!.uid);
-              onSuccess();
-          
+          onSuccess();
         }
       });
-      
-
-      
     } catch (e) {
       debugPrint(e.toString());
       LoadingScreen.hide(context);
@@ -292,19 +279,6 @@ LoadingScreen.hide(context);
       }
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Future<bool> sendEmailVerification(String email) async {
     if (auth.currentUser?.emailVerified ?? true) {
@@ -344,12 +318,56 @@ LoadingScreen.hide(context);
         serial: registerProvider.serialNumber,
         validUntil: registerProvider.validUntil,
         passwordTry: 0,
-        token: "a",
         type: AppConst.defaultUserType,
       );
       http.Response res = await http.post(
         Uri.parse(
-            '${AppConst.authServerAdress}:${AppConst.authServerPort}/api/signup'),
+            '${AppConst.serverAddress}:${AppConst.serverPort}/api/signup'),
+        body: user.toJson(),
+        headers: AppConst.registerHeader,
+      );
+      debugPrint(res.body);
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: onSuccess,
+        onFail: onFail,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      if (context.mounted) {
+        LoadingScreen.hide(context);
+      }
+      ResponseDialog.show(context, "Hata", AppConst.internalServerErrorMessage);
+    }
+  }
+
+//************************************************SIGN-IN********************************************************* */
+  Future<void> signInUser(LoginProvider loginProvider, BuildContext context,
+      {required void Function(Map<String, dynamic> decodedBody) onSuccess,
+      required Function(Map<String, dynamic> decodedBody, String errorMsg)
+          onFail}) async {
+    try {
+      DatabaseUser user = DatabaseUser(
+        id: "",
+        name: "",
+        surname: "",
+        email: "",
+        hashedPassword: loginProvider.password,
+        phone: "90${loginProvider.phone}",
+        tckn: "",
+        birthday: "",
+        serial: "",
+        validUntil: "",
+        passwordTry: 0,
+        type: AppConst.defaultUserType,
+      );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString("phone", loginProvider.phone);
+      await prefs.setString("password", loginProvider.password);
+      http.Response res = await http.post(
+        Uri.parse(
+            '${AppConst.serverAddress}:${AppConst.serverPort}/api/signin'),
         body: user.toJson(),
         headers: AppConst.registerHeader,
       );
@@ -374,17 +392,16 @@ LoadingScreen.hide(context);
       required Function(String errorMsg) onFail}) async {
     http.Response res = await http.post(
         Uri.parse(
-            '${AppConst.authServerAdress}:${AppConst.authServerPort}/api/checkphone'),
+            '${AppConst.serverAddress}:${AppConst.serverPort}/api/checkphone'),
         body: jsonEncode({"phone": "90${registerProvider.phone}"}),
         headers: AppConst.registerHeader);
-        debugPrint(res.body);
+    debugPrint(res.body);
     Map<String, dynamic> decoded = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      if(decoded["result"] == "false"){
+      if (decoded["result"] == "false") {
         onSuccess(false);
-      }else {
+      } else {
         onSuccess(true);
-
       }
     } else if (res.statusCode == 500) {
       onFail(AppConst.internalServerErrorMessage);
@@ -393,23 +410,21 @@ LoadingScreen.hide(context);
     }
   }
 
-
   Future<void> checkTCKN(RegisterProvider registerProvider,
       {required void Function(bool result) onSuccess,
       required Function(String errorMsg) onFail}) async {
     http.Response res = await http.post(
         Uri.parse(
-            '${AppConst.authServerAdress}:${AppConst.authServerPort}/api/checktckn'),
+            '${AppConst.serverAddress}:${AppConst.serverPort}/api/checktckn'),
         body: jsonEncode({"tckn": registerProvider.tckn}),
         headers: AppConst.registerHeader);
-        debugPrint(res.body);
+    debugPrint(res.body);
     Map<String, dynamic> decoded = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      if(decoded["result"] == "false"){
+      if (decoded["result"] == "false") {
         onSuccess(false);
-      }else {
+      } else {
         onSuccess(true);
-
       }
     } else if (res.statusCode == 500) {
       onFail(AppConst.internalServerErrorMessage);
@@ -423,17 +438,16 @@ LoadingScreen.hide(context);
       required Function(String errorMsg) onFail}) async {
     http.Response res = await http.post(
         Uri.parse(
-            '${AppConst.authServerAdress}:${AppConst.authServerPort}/api/checkemail'),
+            '${AppConst.serverAddress}:${AppConst.serverPort}/api/checkemail'),
         body: jsonEncode({"email": registerProvider.email}),
         headers: AppConst.registerHeader);
-        debugPrint(res.body);
+    debugPrint(res.body);
     Map<String, dynamic> decoded = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      if(decoded["result"] == "false"){
+      if (decoded["result"] == "false") {
         onSuccess(false);
-      }else {
+      } else {
         onSuccess(true);
-
       }
     } else if (res.statusCode == 500) {
       onFail(AppConst.internalServerErrorMessage);
@@ -441,10 +455,4 @@ LoadingScreen.hide(context);
       onFail(decoded["error"]);
     }
   }
-
-
-
-
-
-
 }

@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 class AppConst {
   static const String internalServerErrorMessage =
       "Bizden kaynaklı bir sorun oluştu. Birkaç dakika sonra tekrar deneyebilirsin.";
+      static const String authErrorMessage =
+      "Kimliğiniz doğrulanamadı. Tekrar giriş yapmayı deneyin.";
+       static const String unknownErrorMessage =
+      "Bilinmeyen bir hata oluştu.";
   static const Map<String, String> registerHeader = {
     'Content-Type': 'application/json; charset=UTF-8',
   };
-  static const String authServerAdress = "http://192.168.1.6";
-  static const int authServerPort = 3000;
+  static const String serverAddress = "http://192.168.1.6";
+  static const int serverPort = 3000;
   static const int defaultUserType = 2;
   static final List<OnBoard> onBoardList = [
     OnBoard(
